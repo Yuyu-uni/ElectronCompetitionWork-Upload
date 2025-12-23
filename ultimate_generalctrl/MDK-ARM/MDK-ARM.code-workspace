@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"stdio.h": "c",
+			"ads1115_reg.h": "c",
+			"stm32g474xx.h": "c",
+			"stepmotor.h": "c",
+			"motor.h": "c",
+			"fdcan.h": "c",
+			"stm32g4xx_it.h": "c"
+		}
+	}
+}
