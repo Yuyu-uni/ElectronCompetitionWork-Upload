@@ -22,10 +22,18 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
-#include "delay.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "jy901.h"
+#include "delay.h"
+#include "usart.h"
+#include "stdio.h"
+#include "string.h"
+#include "JY901S_REG.h"
+#include "math.h"
+#include "stdlib.h"
+#include "math_tool.h"
 
 /* USER CODE END Includes */
 
@@ -36,6 +44,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+extern int distance; // 距离mm
 
 /* USER CODE END PD */
 
@@ -96,6 +105,7 @@ int main(void)
     MX_TIM4_Init();
     MX_TIM15_Init();
     /* USER CODE BEGIN 2 */
+    int last_GyroData = 0;
 
     /* USER CODE END 2 */
 
@@ -103,9 +113,60 @@ int main(void)
     /* USER CODE BEGIN WHILE */
     while (1)
     {
-        // 点灯
-        HAL_GPIO_TogglePin(UserLED1_OnTop_GPIO_Port, UserLED1_OnTop_Pin); // 点亮LED
-        delay_us(200);
+        jy901_dire_read();
+        //        // y轴角度为0附近判断为最低点
+        if (AngleData.y_Pitch < 83 && AngleData.z_Yaw > 81)
+        {
+            // 点亮LED
+            HAL_GPIO_TogglePin(UserLED1_OnTop_GPIO_Port, UserLED1_OnTop_Pin); // 点亮LED
+            Uart_printf(&huart2, "LOW\r\n");
+            delay_us(10); // 延迟消抖
+        }
+        else
+        {
+            // 关闭LED
+            HAL_GPIO_WritePin(UserLED1_OnTop_GPIO_Port, UserLED1_OnTop_Pin, GPIO_PIN_RESET); // 关闭LED
+            Uart_printf(&huart2, "angle:%f\r\n", AngleData.y_Pitch);
+        }
+
+        // y轴角速度正负变换判断为到最高点
+        if (GyroData.z > 0 && last_GyroData < 0)
+        {
+            // 点亮LED
+            HAL_GPIO_TogglePin(UserLED2_OnTop_GPIO_Port, UserLED2_OnTop_Pin); // 点亮LED
+            Uart_printf(&huart2, "HIGH\r\n");
+            delay_us(10); // 延迟消抖
+        }
+        else if (GyroData.z < 0 && last_GyroData > 0)
+        {
+            // 点亮LED
+            HAL_GPIO_TogglePin(UserLED2_OnTop_GPIO_Port, UserLED2_OnTop_Pin); // 点亮LED
+            Uart_printf(&huart2, "HIGH\r\n");
+            delay_us(10); // 延迟消抖
+        }
+        else
+        {
+            // 关闭LED
+            HAL_GPIO_WritePin(UserLED2_OnTop_GPIO_Port, UserLED2_OnTop_Pin, GPIO_PIN_RESET); // 关闭LED
+            Uart_printf(&huart2, "Gyr:%f\r\n", GyroData.z);
+        }
+        last_GyroData = GyroData.z;
+
+        // if (GyroData.z < 10 && GyroData.z > -10)
+        // {
+        //     // 点亮LED
+        //     HAL_GPIO_WritePin(UserLED2_OnTop_GPIO_Port, UserLED2_OnTop_Pin, SET); // 点亮LED
+        //     Uart_printf(&huart2, "HIGH\r\n");
+        //     HAL_Delay(10); // 延迟消抖
+        // }
+        // else
+        // {
+        //     // 关闭LED
+        //     HAL_GPIO_WritePin(UserLED2_OnTop_GPIO_Port, UserLED2_OnTop_Pin, RESET); // 关闭LED
+        //     Uart_printf(&huart2, "Gyr:%f\r\n", GyroData.z);
+        // }
+
+        // y轴角速度正负变换判断为到最高点
 
         /* USER CODE END WHILE */
 

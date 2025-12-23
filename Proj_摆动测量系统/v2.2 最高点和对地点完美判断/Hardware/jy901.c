@@ -63,7 +63,7 @@ void jy901_writeMASTER(uint8_t *data, uint16_t length)
  * @param delayAfterWrite: 写入后延时(<=0表示不延时)
  * @note 该函数向指定寄存器写入数据，长度为length。其中包含解锁指令
  */
-void jy901_writeREG(uint8_t reg, uint8_t *data, uint16_t length, uint8_t delayBeforeWrite, uint8_t delayAfterWrite)
+void jy901_writeREG(uint8_t reg, uint8_t *data, uint16_t length, uint16_t delayBeforeWrite, uint16_t delayAfterWrite)
 {
     uint8_t unlockData[2] = {0x88, 0xB5};                                                         // 解锁数据
     uint8_t saveData[2] = {0x00, 0x00};                                                           // 保存数据
@@ -132,7 +132,6 @@ void jy901_zeroXY(void)
 }
 
 /*
-/**
  * @brief 读取方向相关传感器的值（double类型）
  *
  * @note 读取数据已写入AccelData（加速度）、GyroData（角速度）、MagData（磁力计）和AngleData（角度）结构体中

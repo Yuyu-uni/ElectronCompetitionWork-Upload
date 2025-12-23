@@ -41,6 +41,7 @@ extern UART_HandleTypeDef huart2;
 void MX_USART2_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */
+void Uart_printf(UART_HandleTypeDef *huart, char *format, ...);
 
 /* USER CODE END Prototypes */
 
