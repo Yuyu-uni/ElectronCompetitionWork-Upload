@@ -1,0 +1,13 @@
+"./empty.o"
+"./syscfg/ti_msp_dl_config.o"
+"./startup_mspm0g350x_ticlang.o"
+"./Hardwares/Following_GW.o"
+"./Hardwares/Motor.o"
+"./task/Interrupt.o"
+"./task/task.o"
+"./tools/PID.o"
+"./tools/delay.o"
+"./tools/drv_math.o"
+-l"./device_linker.cmd"
+-ldevice.cmd.genlibs
+-llibc.a

@@ -1,0 +1,38 @@
+{
+  "folders": [
+    {
+      "path": "file:///c%3A/Users/m1516/workspace_ccstheia"
+    },
+    {
+      "path": "file:///d%3A/PROJECTS/ElecDsinCpet/DianaSai-Control/UploadProjLib/ti_generalctrl/TI_general"
+    }
+  ],
+  "settings": {},
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "TI_general",
+        "type": "ccs-debug",
+        "request": "launch",
+        "projectInfo": {
+          "name": "TI_general",
+          "resourceId": "/TI_general"
+        },
+        "connections": [
+          {
+            "name": "Texas Instruments XDS110 USB Debug Probe",
+            "cores": [
+              {
+                "name": "CORTEX_M0P",
+                "debuggerSettings": {
+                  "data": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n<PropertyValues/>\n"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
